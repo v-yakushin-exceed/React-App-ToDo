@@ -50,17 +50,18 @@ class App extends React.Component {
       if (id === item.id) return { ...item, status: !item.status }
       return item
     })
-    this.setState({ toDo: newToDo })
+    this.setState({ toDo: newToDo }, () => {
+      const allCheck = this.state.toDo.every(elem => elem.status)
+      this.setState({ isAllChecked: allCheck })
+    })
   }
 
   handleAllCheckToDo = () => {
-    this.setState({ isAllChecked: !this.state.isAllChecked },() => {
+    this.setState({ isAllChecked: !this.state.isAllChecked }, () => {
       const newToDo = this.state.toDo.map(item => item.status = this.state.isAllChecked)
       this.setState({ todo: newToDo })
     }
-    
-     )
-     console.log('this',this.state.isAllChecked)
+    )
   }
 
 
