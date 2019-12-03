@@ -14,8 +14,13 @@ class Add extends React.Component {
         status: false,
       })
 
-      this.setState({text:''})
+      this.setState({ text: '' })
     }
+  }
+
+  handleCheckboxAll = () => {
+    this.props.onCheckAllBox()
+    console.log(this.props.data)
   }
 
   handleChange = (e) => {
@@ -31,10 +36,25 @@ class Add extends React.Component {
   }
 
   render() {
-
     const { text } = this.state
+    const { isAllChecked } = this.props
+    const { data } = this.props
     return (
-      <React.Fragment>
+      <div className='add__text'>
+        {
+          data.length ?
+          <React.Fragment>
+            <input
+              name='checkAll'
+              className='select__all'
+              type='checkbox'
+              onChange={this.handleCheckboxAll}
+              checked={isAllChecked}
+            />
+            <label forhtml="check"></label>
+            </React.Fragment>
+            : null
+        }
         <input
           id='text'
           type='text'
@@ -43,7 +63,7 @@ class Add extends React.Component {
           onKeyPress={this.handleKeyPress}
           placeholder='What needs to be done?'
           value={text} />
-      </React.Fragment>
+      </div>
     )
   }
 }

@@ -18,12 +18,27 @@ h1{
   text-align: center;
 }
 
-input#text{
+.add__text{
+  width: calc(100% - 20px);
+  padding: 0 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  border-bottom: 2px solid #f4f4f4;
+}
+
+.add__text input{
   background: #fff;
   border: none;
   padding: 10px;
-  border-bottom: 2px solid #f4f4f4;
+  
 }
+
+.add__text input#text{
+  width: 100%;
+}
+
 input#text::placeholder{
   color: #e6e6e6;
 }
@@ -35,7 +50,8 @@ input#text::placeholder{
 }
 
 
-.list {
+.list,
+.list__nav {
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -99,6 +115,7 @@ p.list__text.active{
   border: 1px solid transparent;
   background: transparent;
   cursor: pointer;
+  outline: none;
 }
 
 .nav__tab button{
@@ -113,7 +130,7 @@ p.list__text.active{
   transition: .5s;
 }
 
-.list{
+.list__nav{
   box-shadow: /* Тень верхнего слоя */
   0 1px 1px rgba(0,0,0,0.15),
   /* Второй слой */
@@ -125,6 +142,57 @@ p.list__text.active{
   /* Тень третьего слоя */
   0 20px 1px -9px rgba(0,0,0,0.15);;
 }
+
+
+
+
+
+.list__items input[type="checkbox"],
+.add__text input[type="checkbox"]{
+  position: absolute;
+  opacity: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+input[type="checkbox"] + label{
+  vertical-align: top;
+  cursor: pointer;
+}
+
+input[type="checkbox"] + label{
+  width: 25px;
+  height: 25px;
+}
+
+input[type="checkbox"] + label::before{
+  content: "";
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  font-size: 20px;
+  border-radius: 50%;
+  border: 1px solid #e6e6e6;
+}
+
+.add__text input[type="checkbox"] + label::before{
+  content: "\2713";
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+  margin: 0;
+  border: none;
+}
+
+input[type="checkbox"] + label::before {
+  background-color:#fff;
+}
+input[type="checkbox"]:checked + label::before {
+  content: "\2713";
+  color: green;
+background-color:#fff;
+}  
 
 
 /*   ==================    Media     ==================    */
@@ -142,6 +210,19 @@ p.list__text.active{
   .nav__right button, 
   .nav__tab button{
     padding: 0 5px;
+  }
+  .list__items:hover button::before{
+    font-size: 14px;
+  }
+  input[type="checkbox"] + label{
+    width: 20px;
+    height: 20px;
+  }
+  
+  input[type="checkbox"] + label::before{
+    height: 16px;
+    width: 16px;
+    font-size: 14px;
   }
 }
 
@@ -163,39 +244,6 @@ p.list__text.active{
   }
 }
 
-/*
-.list__items input[type="checkbox"]{
-  display: none;
-}
 
-input[type="checkbox"] + label{
-  vertical-align: top;
-  cursor: pointer;
-}
-
-input[type="checkbox"] + label{
-  width: 25px;
-  height: 25px;
-  overflow: hidden;
-}
-
-input[type="checkbox"] + label::before{
-  content: "";
-  display: inline-block;
-  height: 20px;
-  width: 20px;
-  margin: 0;
-  border-radius: 50%;
-  border: 1px solid #e6e6e6;
-}
-
-input[type="checkbox"] + label::before {
-  background-color:#fff;
-}
-input[type="checkbox"]:checked + label::before {
-  content: "\2713";
-  color: green;
-background-color:#fff;
-}  */
 
 

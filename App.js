@@ -1,80 +1,91 @@
 import React, { } from 'react';
-import { Add } from './components/Add' // ./ = текущая директория,
-import { News } from './components/News' // далее мы идем в директорию components и в нужный компонент
-import newsData from './data/newsData' // импорт по дефолту
+import { Add } from './components/Add'
+import { List } from './components/List'
+// import { Footer } from './components/Footer' 
+import newToDo from './data/newToDo'
 import './App.css';
+import { Footer } from './components/Footer';
 
 class App extends React.Component {
   state = {
-    news: newsData,
+    toDo: newToDo,
     mode: 'all',
+    isAllChecked: false
   }
 
-  handleDeleteAllNews = () => {
-    const nextNews = this.state.news.filter(elem => elem.status !== true);
-    this.setState({ news: nextNews })
+
+
+  handleDeleteAllToDo = () => {
+    const nextTodo = this.state.toDo.filter(elem => elem.status !== true);
+    this.setState({ toDo: nextTodo })
   }
 
-  handleModeAllNews = (e) => {
-    this.setState({ mode: e})
-  }
 
-  handleModeActiveNews = (e) => {
+  // ONE FUCNTION INSTEAD OF 3
+  handleMode = (e) => {
     this.setState({ mode: e })
   }
 
-  handleModeCompletedNews = (e) => {
-    this.setState({ mode: e })
+  handleAddToDo = (data) => {
+    const newToDo = [data, ...this.state.toDo]
+    this.setState({ toDo: newToDo })
   }
 
-  handleAddNews = (data) => {
-    const nextNews = [data, ...this.state.news]
-    this.setState({ news: nextNews })
+  handleDeleteToDo = (id) => {
+    const newToDo = this.state.toDo.filter((item) => item.id !== id);
+    this.setState({ toDo: newToDo })
   }
 
-  handleDeleteNews = (id) => {
-    const nextNews = this.state.news.filter((item) => item.id !== id);
-    this.setState({ news: nextNews })
-  }
-
-  handleEditNews = (id) => {
+  handleEditToDo = (id) => {
     const text = prompt("edit", "")
-    const newText = this.state.news.map(item => {
+    const newToDo = this.state.toDo.map(item => {
       if (id === item.id) return { ...item, text: text }
       return item
     })
-    this.setState({ news: newText })
+    this.setState({ toDo: newToDo })
   }
 
-  handleCheckNews = (id) => {
-    const nextNews = this.state.news.map(item => {
+  handleCheckToDo = (id) => {
+    const newToDo = this.state.toDo.map(item => {
       if (id === item.id) return { ...item, status: !item.status }
       return item
     })
-    this.setState({ news: nextNews })
+    this.setState({ toDo: newToDo })
+  }
+
+  handleAllCheckToDo = () => {
+    this.setState({ isAllChecked: !this.state.isAllChecked },() => {
+      const newToDo = this.state.toDo.map(item => item.status = this.state.isAllChecked)
+      this.setState({ todo: newToDo })
+    }
+    
+     )
+     console.log('this',this.state.isAllChecked)
   }
 
 
   render() {
-    console.log('NEWS', this.state.news)
     return (
       <div className="root__items">
         <h1>todos</h1>
         <Add
-          onAddNews={this.handleAddNews}
-
+          isAllChecked={this.state.isAllChecked}
+          data={this.state.toDo}
+          onAddNews={this.handleAddToDo}
+          onCheckAllBox={this.handleAllCheckToDo}
         />
-        <News
-          onCheckBox={this.handleCheckNews}
-          onDeleteNews={this.handleDeleteNews}
-          onEditNews={this.handleEditNews}
-          data={this.state.news}
+        <List
+          onCheckBox={this.handleCheckToDo}
+          onDeleteToDo={this.handleDeleteToDo}
+          onEditToDo={this.handleEditToDo}
+          data={this.state.toDo}
           onActiveTab={this.activeCheck}
-          mode={this.state.mode}
-          onDeleteAllNews={this.handleDeleteAllNews}
-          onActiveMode={this.handleModeActiveNews}
-          onCompletedMode={this.handleModeCompletedNews}
-          onAllMode={this.handleModeAllNews} />
+          mode={this.state.mode} />
+        <Footer
+          data={this.state.toDo}
+          onDeleteAllToDo={this.handleDeleteAllToDo}
+          onMode={this.handleMode}
+        />
       </div>
     )
   }
