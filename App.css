@@ -37,6 +37,8 @@ h1{
 
 .add__text input#text{
   width: 100%;
+  font-size: 20px;
+  outline: none;
 }
 
 input#text::placeholder{
@@ -68,13 +70,17 @@ input#text::placeholder{
   padding: 0 10px;
 }
 
-.list__items p{
+.list__items input{
   width: 95%;
   text-align: left;
-  padding-left: 20px;
+  padding-left: 10px;
+  border: none;
+  margin: 10px 0;
+  outline: none;
+  font-size: 20px;
 }
 
-p.list__text.active{
+input.list__text.active{
   text-decoration: line-through;
   color: #e6e6e6;
   transition: all .5s;
@@ -209,10 +215,13 @@ input[type="checkbox"]:checked + label::before {
   h1{
     font-size: 60px;
   }
-  p.list__text,
+  .list__items input,
   .list__nav p, 
   .nav__right button, 
   .nav__tab button{
+    font-size: 10px;
+  }
+  .add__text input#text{
     font-size: 10px;
   }
   .nav__right button, 
@@ -222,6 +231,15 @@ input[type="checkbox"]:checked + label::before {
   .list__items:hover button::before{
     font-size: 14px;
   }
+  .list__items input[type="checkbox"],
+  .add__text input[type="checkbox"]{
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  opacity: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
   input[type="checkbox"] + label{
     width: 20px;
     height: 20px;
@@ -238,17 +256,38 @@ input[type="checkbox"]:checked + label::before {
   h1{
     font-size: 40px;
   }
-  p.list__text,
+  .list__items input,
   .list__nav p, 
   .nav__right button, 
   .nav__tab button{
-    font-size: 6px;
+    font-size: 8px;
   }
-  input#text{
-    font-size: 10px;
+  .add__text input#text{
+    font-size: 8px;
   }
   .list__items:hover button::before{
     font-size: 12px;
+  }
+  .list__items input[type="checkbox"],
+  .add__text input[type="checkbox"]{
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  opacity: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+  input[type="checkbox"] + label{
+    width: 15px;
+    height: 15px;
+    margin: 0;
+  }
+  
+  input[type="checkbox"] + label::before{
+    height: 10px;
+    width: 10px;
+    font-size: 10px;
+    margin: 0;
   }
 }
 

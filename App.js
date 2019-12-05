@@ -5,19 +5,33 @@ import { List } from './components/List'
 import newToDo from './data/newToDo'
 import './App.css';
 import { Footer } from './components/Footer';
+import axios from 'axios';
 
 class App extends React.Component {
   state = {
     toDo: newToDo,
     mode: 'all',
-    isAllChecked: false
+    isAllChecked: false,
   }
 
-
+  componentDidMount() {
+    axios.get(`http://localhost:1234/products/all`)
+      .then(res => {
+        console.log('RESPONSE', res)
+        this.setState({ toDo: res.data });
+      }).catch(err => console.log('ERR', err))
+  }
 
   handleDeleteAllToDo = () => {
-    const nextTodo = this.state.toDo.filter(elem => elem.status !== true);
-    this.setState({ toDo: nextTodo })
+
+    axios.delete(`http://localhost:1234/products/deleteAll/all`)
+      .then(res => {
+        const newToDo = this.state.toDo.filter(elem => elem.status !== true);
+        this.setState({ toDo: newToDo });
+      }).catch(err => console.log('ERR', err))
+
+    //  const nextTodo = this.state.toDo.filter(elem => elem.status !== true);
+    //  this.setState({ toDo: nextTodo })
   }
 
 
@@ -27,41 +41,65 @@ class App extends React.Component {
   }
 
   handleAddToDo = (data) => {
-    const newToDo = [data, ...this.state.toDo]
-    this.setState({ toDo: newToDo })
+    axios.post(`http://localhost:1234/products/create`, { ...data })
+      .then(res => {
+        //  console.log('RESPONSE',res)
+        const newToDo = [res.data, ...this.state.toDo];
+        // console.log('NEW TODO', newToDo)
+        this.setState({ toDo: newToDo });
+      }).catch(err => console.log('ERR', err))
+
+    // const newToDo = [data, ...this.state.toDo]
+    // this.setState({ toDo: newToDo })
   }
 
   handleDeleteToDo = (id) => {
-    const newToDo = this.state.toDo.filter((item) => item.id !== id);
-    this.setState({ toDo: newToDo })
+
+    axios.delete(`http://localhost:1234/products/delete/${id}`)
+      .then(res => {
+        const newToDo = this.state.toDo.filter((item) => item._id !== id);
+        this.setState({ toDo: newToDo });
+      }).catch(err => console.log('ERR', err))
   }
 
-  handleEditToDo = (id) => {
-    const text = prompt("edit", "")
-    const newToDo = this.state.toDo.map(item => {
-      if (id === item.id) return { ...item, text: text }
-      return item
-    })
-    this.setState({ toDo: newToDo })
+  handleEditToDo = (id, currentText) => {
+  //  const text = prompt("edit", "")
+    axios.put(`http://localhost:1234/products/modify/${id}`, { "text": currentText })
+      .then(res => {
+        
+        const newToDo = this.state.toDo.map(item => {
+          if (id === item._id) return { ...item, text: currentText }
+          return item
+        })
+        console.log("RESPON", currentText)
+        this.setState({ toDo: newToDo })
+      })
+
+
   }
 
-  handleCheckToDo = (id) => {
-    const newToDo = this.state.toDo.map(item => {
-      if (id === item.id) return { ...item, status: !item.status }
-      return item
-    })
-    this.setState({ toDo: newToDo }, () => { 
-      this.setState({isAllChecked: this.state.toDo.every(elem => elem.status)})
-     // const allCheck = this.state.toDo.every(elem => elem.status)
-    //  this.setState({ isAllChecked: allCheck })
-    })
+  handleCheckToDo = (id, status) => {
+    console.log("STATUS", status)
+    axios.put(`http://localhost:1234/products/update/${id}`, { "status": status })
+      .then(res => {
+        console.log('RES', res)
+        const newToDo = this.state.toDo.map(item => {
+
+          if (id === item._id) return { ...item, status: !item.status }
+          return item
+        })
+
+        this.setState({ toDo: newToDo }, () => {
+          this.setState({ isAllChecked: this.state.toDo.every(elem => elem.status) })
+        })
+      })
   }
 
   handleAllCheckToDo = () => {
     this.setState({ isAllChecked: !this.state.isAllChecked }, () => {
       this.setState({ todo: this.state.toDo.map(item => item.status = this.state.isAllChecked) })
-    //  const newToDo = this.state.toDo.map(item => item.status = this.state.isAllChecked)
-    //  this.setState({ todo: newToDo })
+      //  const newToDo = this.state.toDo.map(item => item.status = this.state.isAllChecked)
+      //  this.setState({ todo: newToDo })
     })
   }
 

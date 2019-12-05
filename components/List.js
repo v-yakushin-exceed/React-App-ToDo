@@ -20,7 +20,7 @@ class List extends React.Component {
     }
 
     const todos = filteredArray.map(function (item) {
-      return <ToDo onEditToDo={onEditToDo} onDeleteToDo={onDeleteToDo} onCheckBox={onCheckBox} key={item.id} data={item} />
+      return <ToDo onEditToDo={onEditToDo} onDeleteToDo={onDeleteToDo} onCheckBox={onCheckBox} key={item._id} data={item} />
     })
     return todos
   }

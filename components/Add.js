@@ -8,13 +8,13 @@ class Add extends React.Component {
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       const { text } = this.state
+      
       this.props.onAddNews({
-        id: +new Date(),
         text,
         status: false,
       })
 
-      this.setState({ text: '' })
+      this.setState({ text: "" })
     }
   }
 
@@ -43,15 +43,15 @@ class Add extends React.Component {
       <div className='add__text'>
         {
           data.length ?
-          <React.Fragment>
-            <input
-              name='checkAll'
-              className='select__all'
-              type='checkbox'
-              onChange={this.handleCheckboxAll}
-              checked={isAllChecked}
-            />
-            <label forhtml="check"></label>
+            <React.Fragment>
+              <input
+                name='checkAll'
+                className='select__all'
+                type='checkbox'
+                onChange={this.handleCheckboxAll}
+                checked={isAllChecked}
+              />
+              <label forhtml="check"></label>
             </React.Fragment>
             : null
         }
