@@ -1,11 +1,11 @@
 import React, { } from 'react';
+import axios from 'axios';
 import { Add } from './components/Add'
 import { List } from './components/List'
-// import { Footer } from './components/Footer' 
+import { Footer } from './components/Footer';
 import newToDo from './data/newToDo'
 import './App.css';
-import { Footer } from './components/Footer';
-import axios from 'axios';
+
 
 class App extends React.Component {
   state = {
@@ -29,13 +29,8 @@ class App extends React.Component {
         const newToDo = this.state.toDo.filter(elem => elem.status !== true);
         this.setState({ toDo: newToDo });
       }).catch(err => console.log('ERR', err))
-
-    //  const nextTodo = this.state.toDo.filter(elem => elem.status !== true);
-    //  this.setState({ toDo: nextTodo })
   }
 
-
-  // ONE FUCNTION INSTEAD OF 3
   handleMode = (e) => {
     this.setState({ mode: e })
   }
@@ -43,18 +38,12 @@ class App extends React.Component {
   handleAddToDo = (data) => {
     axios.post(`http://localhost:1234/products/create`, { ...data })
       .then(res => {
-        //  console.log('RESPONSE',res)
         const newToDo = [res.data, ...this.state.toDo];
-        // console.log('NEW TODO', newToDo)
         this.setState({ toDo: newToDo });
       }).catch(err => console.log('ERR', err))
-
-    // const newToDo = [data, ...this.state.toDo]
-    // this.setState({ toDo: newToDo })
   }
 
   handleDeleteToDo = (id) => {
-
     axios.delete(`http://localhost:1234/products/delete/${id}`)
       .then(res => {
         const newToDo = this.state.toDo.filter((item) => item._id !== id);
@@ -63,10 +52,8 @@ class App extends React.Component {
   }
 
   handleEditToDo = (id, currentText) => {
-  //  const text = prompt("edit", "")
     axios.put(`http://localhost:1234/products/modify/${id}`, { "text": currentText })
       .then(res => {
-        
         const newToDo = this.state.toDo.map(item => {
           if (id === item._id) return { ...item, text: currentText }
           return item
@@ -74,8 +61,6 @@ class App extends React.Component {
         console.log("RESPON", currentText)
         this.setState({ toDo: newToDo })
       })
-
-
   }
 
   handleCheckToDo = (id, status) => {
@@ -84,11 +69,9 @@ class App extends React.Component {
       .then(res => {
         console.log('RES', res)
         const newToDo = this.state.toDo.map(item => {
-
           if (id === item._id) return { ...item, status: !item.status }
           return item
         })
-
         this.setState({ toDo: newToDo }, () => {
           this.setState({ isAllChecked: this.state.toDo.every(elem => elem.status) })
         })
@@ -98,11 +81,8 @@ class App extends React.Component {
   handleAllCheckToDo = () => {
     this.setState({ isAllChecked: !this.state.isAllChecked }, () => {
       this.setState({ todo: this.state.toDo.map(item => item.status = this.state.isAllChecked) })
-      //  const newToDo = this.state.toDo.map(item => item.status = this.state.isAllChecked)
-      //  this.setState({ todo: newToDo })
     })
   }
-
 
   render() {
     return (

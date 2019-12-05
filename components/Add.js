@@ -1,5 +1,5 @@
-import React from 'react' // мы обязаны импортировать необходимые пакеты в каждом файле
-import PropTypes from 'prop-types' // у Article это react и prop-types
+import React from 'react'
+import PropTypes from 'prop-types'
 
 class Add extends React.Component {
   state = {
@@ -8,7 +8,7 @@ class Add extends React.Component {
   handleKeyPress = (event) => {
     if (event.key === 'Enter') {
       const { text } = this.state
-      
+
       this.props.onAddNews({
         text,
         status: false,
@@ -69,7 +69,7 @@ class Add extends React.Component {
 }
 
 Add.propTypes = {
-  onAddNews: PropTypes.func.isRequired, // func используется для проверки передачи function
+  onAddNews: PropTypes.func.isRequired,
 }
 
-export { Add } // именованный экспорт
+export { Add } 

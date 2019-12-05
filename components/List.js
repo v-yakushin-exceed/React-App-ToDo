@@ -1,11 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types' 
+import PropTypes from 'prop-types'
 import { ToDo } from './ToDo'
 
-// List items
-
 class List extends React.Component {
-  
 
   renderList = (onCheckBox, onDeleteToDo, onEditToDo) => {
     const { data, mode } = this.props
